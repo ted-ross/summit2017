@@ -22,33 +22,32 @@ from __future__ import print_function
 from proton import Message
 from proton.handlers import MessagingHandler
 from proton.reactor import Container, DynamicNodeProperties
-from time import time
+from time import time, sleep
 import os
 
-class Service(MessagingHandler):
+class Timer(object):
+    def __init__(self, parent):
+        self.parent = parent
+
+    def on_timer_task(self, event):
+        self.parent.tick()
+
+class Collector(MessagingHandler):
     def __init__(self, url):
-        super(Service, self).__init__()
+        super(Collector, self).__init__()
         self.url = url
-        self.address = "SubService.A"
-        self.accounting = "Accounting"
+        self.address = "Accounting"
+
+    def tick(self):
+        self.timer = self.reactor.schedule(10.0, Timer(self))
 
     def on_start(self, event):
         self.container   = event.container
+        self.reactor     = event.reactor
         self.conn        = self.container.connect(self.url)
         self.receiver    = self.container.create_receiver(self.conn, self.address)
-        self.acct_sender = self.container.create_sender(self.conn, self.accounting)
-        self.anon_sender = self.container.create_sender(self.conn, None)
+        self.timer       = self.reactor.schedule(10.0, Timer(self))
 
-    def on_message(self, event):
-        reply_to = event.message.reply_to
-        cid      = event.message.correlation_id
-        msg      = Message(address = reply_to, correlation_id = cid, body = "SubService.A (%s)" % os.uname()[1])
-        self.anon_sender.send(msg)
-
-        if self.acct_sender.credit > 0:
-            acct_msg = Message(body = reply_to)
-            self.acct_sender.send(acct_msg)
-        
 
 try:
     ##
@@ -56,7 +55,7 @@ try:
     ## Fall back to 127.0.0.1 (loopback)
     ##
     host = os.getenv("MESSAGING_SERVICE_HOST", "127.0.0.1")
-    Container(Service(host)).run()
+    Container(Collector(host)).run()
 except KeyboardInterrupt: pass
 
 
