@@ -1,6 +1,11 @@
-# Patient Information
+# Patient Info Demo
 
-## Example
+## Using Docker
+
+    $ sudo docker build -t <some-tag> .
+    $ sudo docker run -e MESSAGING_SERVICE_HOST=<message-server> <some-tag>
+
+## Example test run
 
     [jross@localhost demo-patient-info (master)]$ make test TEST_SERVICE=192.168.86.21
     if [[ 192.168.86.21 == "" ]]; then echo TEST_SERVICE is not set; exit 1; fi;

@@ -1,5 +1,4 @@
 FROM fedora
-MAINTAINER Justin Ross <jross@apache.org>
 
 RUN dnf -y update && dnf -y install npm && dnf clean all
 
