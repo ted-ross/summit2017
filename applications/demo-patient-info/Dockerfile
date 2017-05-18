@@ -8,6 +8,4 @@ ADD main.js /main.js
 
 RUN npm install
 
-ENV MESSAGING_SERVICE_HOST=127.0.0.1
-
 ENTRYPOINT ["node", "main.js"]

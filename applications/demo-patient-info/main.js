@@ -22,6 +22,11 @@ var container = rhea.create_container();
 var host = process.env.MESSAGING_SERVICE_HOST;
 var address = "patient-info";
 
+if (!host) {
+    console.log("Error! MESSAGING_SERVICE_HOST is not set");
+    process.exit(1);
+}
+
 container.on("connection_open", function (context) {
     context.connection.open_receiver(address);
     console.log("patient-info: Created receiver for source address '" + address + "'");
