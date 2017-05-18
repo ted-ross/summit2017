@@ -24,14 +24,14 @@ var address = "patient-info";
 
 container.on("connection_open", function (context) {
     context.connection.open_receiver(address);
-    console.log("patient-information: Created receiver for source address '" + address + "'");
+    console.log("patient-info: Created receiver for source address '" + address + "'");
 });
 
 container.on("message", function (context) {
     var request = context.message;
     var reply_to = request.reply_to;
 
-    console.log("Received request: " + request.body);
+    console.log("patient-info: Received request: " + request.body);
 
     var response_body = request.body + "\nPatient Info Retrieved";
     

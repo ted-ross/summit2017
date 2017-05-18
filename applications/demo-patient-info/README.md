@@ -2,8 +2,9 @@
 
 ## Example
 
-    [jross@localhost patient-information]$ sudo docker build -t test .
-    Sending build context to Docker daemon  5.12 kB
+    [jross@localhost demo-patient-info (master)]$ make test
+    sudo docker build -t test .
+    Sending build context to Docker daemon 10.75 kB
     Step 1 : FROM fedora
      ---> 15895ef0b3b2
     Step 2 : MAINTAINER Justin Ross <jross@apache.org>
@@ -14,21 +15,22 @@
      ---> bf136bdf0c32
     Step 4 : ADD package.json /package.json
      ---> Using cache
-     ---> e22c98d11749
+     ---> b10dba73e628
     Step 5 : RUN npm install
      ---> Using cache
-     ---> 204d17d20a34
+     ---> a61980ff1483
     Step 6 : ENV MESSAGING_SERVICE_HOST 127.0.0.1
      ---> Using cache
-     ---> e37f034dfc50
+     ---> 72aae8236fce
     Step 7 : ADD main.js /main.js
-     ---> fc231242b918
-    Removing intermediate container eedfae27e3b0
+     ---> 5d997ed2f7dd
+    Removing intermediate container 35f78ceee94b
     Step 8 : CMD node main.js
-     ---> Running in e911a5bf94a8
-     ---> 7ad6fcb1a225
-    Removing intermediate container e911a5bf94a8
-    Successfully built 7ad6fcb1a225
-    [jross@localhost patient-information]$ sudo docker run -e MESSAGING_SERVICE_HOST=192.168.86.21 test
-    patient-information: Created receiver for source address 'patient-information'
-    Received request: test
+     ---> Running in 30922578c077
+     ---> 2d84e84de5aa
+    Removing intermediate container 30922578c077
+    Successfully built 2d84e84de5aa
+    sudo docker run -e MESSAGING_SERVICE_HOST=192.168.86.21 test
+    patient-info: Created receiver for source address 'patient-info'
+    patient-info: Received request: test
+    patient-info: Received request: test
