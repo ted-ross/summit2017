@@ -28,6 +28,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <vertx-proton.version>3.4.1</vertx-proton.version>
+        <slf4j.version>1.7.25</slf4j.version>
     </properties>
 
     <dependencies>
@@ -35,6 +36,17 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-proton</artifactId>
             <version>${vertx-proton.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 </project>
