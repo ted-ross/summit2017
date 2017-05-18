@@ -1,0 +1,3 @@
+#!/bin/bash
+mvn -q -e clean compile
+mvn -q -e exec:java -Dexec.mainClass=com.redhat.example.ImageAnalyzer -Dexec.args="$*"
