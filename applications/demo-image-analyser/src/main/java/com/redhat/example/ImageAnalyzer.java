@@ -27,7 +27,7 @@ public class ImageAnalyzer {
 
   private static final String SERVER_HOST = System.getenv("MESSAGING_SERVICE_HOST") != null ? System.getenv("MESSAGING_SERVICE_HOST") : "localhost";
   private static final int SERVER_PORT = 5672;
-  private static final String REQUEST_ADDRESS = "queue";
+  private static final String REQUEST_ADDRESS = "image-analyzer";
 
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
@@ -49,7 +49,7 @@ public class ImageAnalyzer {
         connection.createReceiver(REQUEST_ADDRESS).handler((delivery, requestMsg) -> {
           // Process the request and send a response
           String content = getRequestContent(requestMsg);
-          System.out.println("Received request: " + content);
+          System.out.println("image-analyzer: Received request: " + content);
 
           String response = content + "\nCompleted Image Analysis";
 
