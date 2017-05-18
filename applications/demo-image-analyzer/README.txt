@@ -21,3 +21,9 @@ Now you can run it using commands of the format:
 
   Windows: java -cp "target\classes\;target\dependency\*" com.redhat.example.ImageAnalyzer
 
+or
+
+# Use Docker
+
+  sudo docker build -t test .
+  sudo docker run -e MESSAGING_SERVICE_HOST=192.168.86.21 test
