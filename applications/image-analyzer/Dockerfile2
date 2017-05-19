@@ -1,0 +1,33 @@
+FROM fedora
+
+RUN dnf -y update && dnf -y install java-1.8.0-openjdk-devel wget && dnf clean all
+
+ENV LIB_DIR=jlib/
+
+ADD src /src
+
+RUN wget http://repo1.maven.org/maven2/io/vertx/vertx-proton/3.4.1/vertx-proton-3.4.1.jar -N -P $LIB_DIR \ 
+    && wget http://repo1.maven.org/maven2/io/vertx/vertx-core/3.4.1/vertx-core-3.4.1.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-common/4.1.8.Final/netty-common-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-buffer/4.1.8.Final/netty-buffer-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-transport/4.1.8.Final/netty-transport-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-handler/4.1.8.Final/netty-handler-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-codec/4.1.8.Final/netty-codec-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-handler-proxy/4.1.8.Final/netty-handler-proxy-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-codec-socks/4.1.8.Final/netty-codec-socks-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-codec-http/4.1.8.Final/netty-codec-http-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-codec-http2/4.1.8.Final/netty-codec-http2-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-resolver/4.1.8.Final/netty-resolver-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-resolver-dns/4.1.8.Final/netty-resolver-dns-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/io/netty/netty-codec-dns/4.1.8.Final/netty-codec-dns-4.1.8.Final.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.7.4/jackson-core-2.7.4.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.7.4/jackson-databind-2.7.4.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.7.0/jackson-annotations-2.7.0.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/org/apache/qpid/proton-j/0.18.0/proton-j-0.18.0.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/1.7.25/slf4j-log4j12-1.7.25.jar -N -P $LIB_DIR \
+    && wget http://repo1.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.jar -N -P $LIB_DIR \
+    && mkdir -p cls \
+    && javac -d cls -cp "$LIB_DIR/*" src/main/java/com/redhat/example/ImageAnalyzer.java
+
+ENTRYPOINT java -cp "cls:src/main/resources/:$LIB_DIR/*" com.redhat.example.ImageAnalyzer
